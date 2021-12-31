@@ -1,1 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch API Demo</title>
+    <link rel="stylesheet" href="task2.css">
 
+</head>
+<body>
+    <section class="nav">
+        <li>ZIPPY</li>
+
+            <div ><button  id="btn" onclick="myFunction()">GET USERS</button></div>
+            <div ><button  id="btn" onclick="myFunction1()">BACK</button></div>
+
+    </section>
+   
+    <div id="container">
+    <div id="box"></div>
+    </div>
+    <script src="task2.js"></script>
+
+</body>
+</html> 
+
+
+<! -----CSS----->
+
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 800px;
+    margin: 0;
+    background-color: #9ac1c1;
+}
+
+.nav {
+    width: 100%;
+    height: 80px;
+    background-color: #f19122;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* #button{
+	width: 100%;
+	height: 150px; 
+	padding: 10px;
+    display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color:#f19122;
+	
+}*/
+
+#btn {
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: #33d835;
+    border: 2px solid #33d835;
+    font-style: inherit;
+    font-family: cursive;
+    font-family: cursive;
+    font-weight: bolder;
+    margin: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+#btn:hover {
+    background-color: rgb(26, 117, 26);
+    border: 2px solid black;
+    color: white;
+}
+
+.nav li {
+    list-style: none;
+    font-size: 30px;
+    font-family: cursive;
+    font-weight: bolder;
+}
+
+#container {
+    width: 100%;
+    height: 1500px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    visibility: hidden;
+    background-color: #9ac1c1;
+}
+
+.user h2 {
+    font-weight: bolder;
+    font-family: cursive;
+}
+
+.user {
+    padding: 5px;
+    margin: 25px;
+    border: 2px solid brown;
+    border-radius: 14px;
+    background-color: #f9d49e;
+    transition: all 0.5s ease-in-out;
+}
+
+.user:hover {
+    margin: 20px;
+    background-color: #d6a254;
+    transform: scale(1.1);
+}
+
+.user img {
+    padding: 10px;
+    width: 190px;
+    height: 170px;
+    border-radius: 50%;
+}
+
+.user h2 {
+    text-align: center;
+    padding: -6px;
+    margin: 0;
+    line-height: 24px;
+}
+
+.user .email a {
+    text-decoration: none;
+    color: black;
+}
+
+.user .email {
+    text-align: center;
+}
+
+
+<! -----JAVA SCRIPT----->
+
+async function getUsers() {
+    let url = 'users.json';
+    try {
+        let res = await fetch(url);
+        return await res.json();
+    } catch (error) {
+        console.log(error);
+    }
+}
+async function renderUsers() {
+    let users = await getUsers();
+    let html = '';
+    users.forEach(user => {
+        let container = `<div class="user">
+                            <img src="${user.avatar}" >
+                            <h2>${user.first_name} ${user.last_name}</h2>
+                            <div class="email"><a href="email:${user.email}">${user.email}</a></div>
+                        </div>`;
+
+        html += container;
+    });
+
+    let container = document.querySelector('#container');
+    container.innerHTML = html;
+}
+
+renderUsers();
+
+function myFunction() {
+    document.getElementById("container").style.visibility = "visible";
+}
+
+function myFunction1() {
+    document.getElementById("container").style.visibility = "hidden";
+}
